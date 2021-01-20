@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import adminRouter from './routes/admin.js';
 
+const __dirname = path.resolve();
 const app = express();
 const port = 3000;
 
