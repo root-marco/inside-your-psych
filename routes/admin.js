@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import categoriy from '../models/Categorie.js';
+import category from '../models/Category.js';
 
 const router = express.Router();
 
@@ -12,12 +12,13 @@ router.get('/posts', (req, res) => {
 	res.send('<h1>Posts page</h1>');
 });
 
-router.get('/categories', (req, res) => {
+router.get('/categories', async (req, res) => {
 	res.render('admin/categories');
 });
 
+
 router.get('/categories/add', (req, res) => {
-	res.render('admin/categoryadd');
+	res.render('admin/addcategory');
 });
 
 router.post('/categories/new', (req, res) => {
@@ -26,10 +27,11 @@ router.post('/categories/new', (req, res) => {
 		slug: req.body.slug,
 	};
 
-	new categoriy(newCategory).save()
+	new category(newCategory).save()
 	.then(() => console.log('category added'))
 	.catch((err) => console.log('error'));
 
+	res.redirect('/admin/categories');
 });
 
 export default router;
