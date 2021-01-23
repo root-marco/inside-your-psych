@@ -39,11 +39,11 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve('public')));
 
 // MONGOOSE
-mongoose.Promise = global.Promise;
+const db = mongoose.connection;
 mongoose.connect('mongodb://localhost:27017/inside-your-psych', 
 { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.on('open', () => console.log('database connected'));
-mongoose.connection.on('error', console.error.bind(console, 'connection error'));
+db.on('open', () => console.log('database connected'));
+db.on('error', console.error.bind(console, 'connection error'));
 
 /* ROUTES */
 app.use('/admin', adminRouter);
