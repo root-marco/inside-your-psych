@@ -48,4 +48,8 @@ mongoose.connection.on('error', console.error.bind(console, 'connection error'))
 /* ROUTES */
 app.use('/admin', adminRouter);
 
+app.get('/', (req, res) => {
+	res.send('<a href="/admin">admin</a>')
+});
+
 app.listen(port, () => console.log(`server running`));
