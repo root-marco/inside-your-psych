@@ -9,7 +9,13 @@ export const posts = async (req, res) => {
 };
 
 export const categories = async (req, res) => {
-	res.render('admin/categories');
+
+	category.find().sort({_id:-1}).lean().then((categories) => {
+		res.render('admin/categories', { categories: categories });
+	}).catch((err) => {
+		req.flash('error_msg', 'unable to list categories');
+		res.redirect('/admin');
+	});
 };
 
 export const categoriesAdd = async (req, res) => {
