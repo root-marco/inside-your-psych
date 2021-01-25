@@ -45,7 +45,7 @@ mongoose.connect('mongodb://localhost:27017/inside-your-psych',
 db.on('open', () => console.log('database connected'));
 db.on('error', console.error.bind(console, 'connection error'));
 
-/* ROUTES */
+// ROUTES
 app.use('/admin', adminRouter);
 
 app.get('/', (req, res) => {
