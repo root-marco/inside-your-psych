@@ -28,11 +28,15 @@ app.use((req, res, next) => {
 });
 
 // BODY PARSER
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
 app.use(bodyParser.json());
 
 // HANDLEBARS
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }));
+app.engine('handlebars', handlebars({
+	defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 
 // PUBLIC
@@ -40,8 +44,10 @@ app.use(express.static(path.resolve('public')));
 
 // MONGOOSE
 const db = mongoose.connection;
-mongoose.connect('mongodb://localhost:27017/inside-your-psych', 
-{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/inside-your-psych', {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+});
 db.on('open', () => console.log('database connected'));
 db.on('error', console.error.bind(console, 'connection error'));
 
