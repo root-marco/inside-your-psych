@@ -69,11 +69,11 @@ export const categoriesDelete = async (req, res) => {
 		_id: id
 	}, (err) => {
 		if (!err) {
-			console.log('boa')
+			req.flash('success_msg', 'successfully deleted category')
+			res.redirect('/admin/categories');
 		} else {
-			console.log(err)
+			req.flash('error_msg', 'error deleting category')
+			console.log('error')
 		}
 	});
-
-	res.redirect('/admin/categories');
 };
