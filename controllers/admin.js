@@ -17,9 +17,10 @@ export const categories = async (req, res) => {
 			categories: categories
 		});
 	}).catch((err) => {
-		req.flash('error_msg', 'unable to list categories');
+		req.flash('error_msg', 'unable to list categories.');
 		res.redirect('/admin');
 	});
+
 };
 
 export const categoriesAdd = async (req, res) => {
@@ -53,7 +54,7 @@ export const categoriesNew = async (req, res) => {
 
 		new category(newCategory).save()
 			.then(() => {
-				req.flash('success_msg', 'successfully created category')
+				req.flash('success_msg', 'successfully created category.')
 				res.redirect('/admin/categories');
 			}).catch((err) => {
 				req.flash('error_msg', 'error creating category')
@@ -62,18 +63,54 @@ export const categoriesNew = async (req, res) => {
 	}
 };
 
-export const categoriesDelete = async (req, res) => {
-	const id = req.params.id;
+export const categoriesEditId = async (req, res) => {
+
+	category.findOne({
+		_id: req.params.id
+	}).lean().then((category) => {
+		res.render('admin/categoriesedit', {
+			category: category
+		});
+	}).catch((err) => {
+		req.flash('error_msg', 'this category doesn\'t exist.');
+		console.log('asdasd')
+		res.redirect('/admin/categories');
+	});
+
+};
+
+export const categoriesEdit = async (req, res) => {
+
+	category.findOne({
+		_id: req.body.id
+	}).then((category) => {
+		category.name = req.body.name;
+		category.slug = req.body.slug;
+
+		category.save().then(() => {
+			req.flash('success_msg', 'successfully edited category.');
+			res.redirect('/admin/categories');
+		}).catch((err) => {
+			req.flash('error_msg', 'error when editing category.')
+			res.redirect('/admin/categories');
+		});
+	}).catch((err) => {
+		req.flash('error_msg', 'error when editing category.');
+		res.redirect('/admin/categories');
+	})
+
+};
+
+export const categoriesDeleteId = async (req, res) => {
 
 	category.deleteOne({
-		_id: id
-	}, (err) => {
-		if (!err) {
-			req.flash('success_msg', 'successfully deleted category')
-			res.redirect('/admin/categories');
-		} else {
-			req.flash('error_msg', 'error deleting category')
-			console.log('error')
-		}
+		_id: req.params.id
+	}).lean().then(() => {
+		req.flash('success_msg', 'successfully deleted category.')
+		res.redirect('/admin/categories');
+	}).catch((error) => {
+		req.flash('error_msg', 'error deleting category.')
+		res.redirect('/admin/categories');
 	});
+
 };
