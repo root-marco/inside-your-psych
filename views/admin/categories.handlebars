@@ -1,20 +1,20 @@
 <a href="/admin/categories/add">
-	<button class="btn btn-success mb-4">New category</button>
+	<button class="btn btn-primary btn-lg mb-4">New category</button>
 </a>
 
 <h2>List of categories:</h2>
 
 {{#each categories}}
 
-	<div class="card mt-2">
+	<div class="card mt-4">
 
 		<div class="card-body">
 
 			<h3>Name: {{name}}</h3>
 			<h6>Slug: {{slug}}</h6>
 
-			<a href="admin/categories/edit/{{name}}">
-				<button class="btn btn-success">Edit category</button>
+			<a href="/admin/categories/delete/{{_id}}">
+				<button class="btn btn-danger">Delete</button>
 			</a>
 
 		</div>
