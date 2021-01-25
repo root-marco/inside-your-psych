@@ -1,13 +1,25 @@
+<a href="/admin/categories/add">
+	<button class="btn btn-success mb-4">New category</button>
+</a>
+
 <h2>List of categories:</h2>
-<br>
+
 {{#each categories}}
-	<div class="card mt-4">
+
+	<div class="card mt-2">
+
 		<div class="card-body">
+
 			<h3>Name: {{name}}</h3>
 			<h6>Slug: {{slug}}</h6>
+
+			<a href="admin/categories/edit/{{name}}">
+				<button class="btn btn-success">Edit category</button>
+			</a>
+
 		</div>
+
 	</div>
+
 {{else}}
 {{/each}}
-<br>
-<a href="/admin/categories/add"> <button class="btn btn-success mt-4">New categorie</button> </a>
