@@ -6,20 +6,24 @@
 
 {{#each categories}}
 
-	<div class="card mt-4">
+<div class="card mt-4">
 
-		<div class="card-body">
+	<div class="card-body">
 
-			<h3>Name: {{name}}</h3>
-			<h6>Slug: {{slug}}</h6>
+		<h3>Name: {{name}}</h3>
+		<h6>Slug: {{slug}}</h6>
 
-			<a href="/admin/categories/delete/{{_id}}">
-				<button class="btn btn-danger">Delete</button>
-			</a>
-
-		</div>
+		<a href="/admin/categories/edit/{{_id}}">
+			<button class="text-center btn btn-secondary">Edit</button>
+		</a>
+		
+		<a href="/admin/categories/delete/{{_id}}">
+			<button class="btn btn-danger">Delete</button>
+		</a>
 
 	</div>
+
+</div>
 
 {{else}}
 {{/each}}
