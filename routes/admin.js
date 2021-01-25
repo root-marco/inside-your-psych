@@ -7,9 +7,10 @@ router.get('/', admin.root);
 router.get('/posts', admin.posts);
 router.get('/categories', admin.categories);
 router.get('/categories/add', admin.categoriesAdd);
-router.get('/categories/edit/:id', admin.categoriesEdit);
-router.get('/categories/delete/:id', admin.categoriesDelete);
+router.get('/categories/edit/:id', admin.categoriesEditId);
+router.get('/categories/delete/:id', admin.categoriesDeleteId);
 
 router.post('/categories/new', admin.categoriesNew);
+router.post('/categories/edit', admin.categoriesEdit);
 
 export default router;
