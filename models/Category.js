@@ -3,15 +3,15 @@ import mongoose from 'mongoose';
 const Category = new mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: true,
 	},
 	slug: {
 		type: String,
-		required: true
+		required: true,
 	},
 	date: {
 		type: Date,
-		default: Date.now()
+		default: Date.now(),
 	},
 });
 
