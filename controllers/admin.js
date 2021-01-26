@@ -9,7 +9,6 @@ export const posts = async (req, res) => {
 };
 
 export const categories = async (req, res) => {
-
 	category.find().sort({
 		_id: -1
 	}).lean().then((categories) => {
@@ -20,7 +19,6 @@ export const categories = async (req, res) => {
 		req.flash('error_msg', 'unable to list categories.');
 		res.redirect('/admin');
 	});
-
 };
 
 export const categoriesAdd = async (req, res) => {
@@ -64,7 +62,6 @@ export const categoriesNew = async (req, res) => {
 };
 
 export const categoriesEditId = async (req, res) => {
-
 	category.findOne({
 		_id: req.params.id
 	}).lean().then((category) => {
@@ -76,11 +73,9 @@ export const categoriesEditId = async (req, res) => {
 		console.log('asdasd')
 		res.redirect('/admin/categories');
 	});
-
 };
 
 export const categoriesEdit = async (req, res) => {
-
 	category.findOne({
 		_id: req.body.id
 	}).then((category) => {
@@ -98,11 +93,9 @@ export const categoriesEdit = async (req, res) => {
 		req.flash('error_msg', 'error when editing category.');
 		res.redirect('/admin/categories');
 	})
-
 };
 
 export const categoriesDeleteId = async (req, res) => {
-
 	category.deleteOne({
 		_id: req.params.id
 	}).lean().then(() => {
@@ -112,5 +105,4 @@ export const categoriesDeleteId = async (req, res) => {
 		req.flash('error_msg', 'error deleting category.')
 		res.redirect('/admin/categories');
 	});
-
 };
