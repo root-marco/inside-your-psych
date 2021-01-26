@@ -1,0 +1,25 @@
+<h3>New post:</h3>
+<div class="card">
+	<div class="card-body">
+		<form action="">
+			<label for="title">Title:</label>
+			<input class="form-control" type="text" name="title">
+			<label for="slug">Slug:</label>
+			<input class="form-control" type="text" name="slug">
+			<label for="description">Description:</label>
+			<input class="form-control" type="text" name="description">
+			<label for="content">Content:</label>
+			<textarea class="form-control" rows="10" name="content"></textarea>
+			<label for="category">Category:</label>
+			<select class="form-select" name="category">
+				{{#each categories}}
+				<option value="{{_id}}">{{name}}</option>
+				{{else}}
+				<option value="">no registered category.</option>
+				{{/each}}
+			</select>
+			<br>
+			<button class="btn btn-primary" type="submit">Create</button>
+		</form>
+	</div>
+</div>
