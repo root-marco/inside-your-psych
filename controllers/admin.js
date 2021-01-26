@@ -4,9 +4,22 @@ export const root = async (req, res) => {
 	res.render('admin/index');
 };
 
+// POSTS
+
 export const posts = async (req, res) => {
-	res.send('<h1>Posts page</h1>');
+	res.render('admin/posts');
 };
+
+export const postsAdd = async (req, res) => {
+	category.find().lean().then((categories) => {
+		res.render('admin/postsadd', { categories: categories });
+	}).catch((err) => {
+		res.flash('error_msg', 'error to load form.');
+		res.redirect('admin/posts');
+	});
+};
+
+// CATEGORIES
 
 export const categories = async (req, res) => {
 	category.find().sort({
@@ -55,24 +68,10 @@ export const categoriesNew = async (req, res) => {
 				req.flash('success_msg', 'successfully created category.')
 				res.redirect('/admin/categories');
 			}).catch((err) => {
-				req.flash('error_msg', 'error creating category')
+				req.flash('error_msg', 'error creating category.')
 				console.log('error')
 			});
 	}
-};
-
-export const categoriesEditId = async (req, res) => {
-	category.findOne({
-		_id: req.params.id
-	}).lean().then((category) => {
-		res.render('admin/categoriesedit', {
-			category: category
-		});
-	}).catch((err) => {
-		req.flash('error_msg', 'this category doesn\'t exist.');
-		console.log('asdasd')
-		res.redirect('/admin/categories');
-	});
 };
 
 export const categoriesEdit = async (req, res) => {
@@ -95,6 +94,20 @@ export const categoriesEdit = async (req, res) => {
 	})
 };
 
+export const categoriesEditId = async (req, res) => {
+	category.findOne({
+		_id: req.params.id
+	}).lean().then((category) => {
+		res.render('admin/categoriesedit', {
+			category: category
+		});
+	}).catch((err) => {
+		req.flash('error_msg', 'this category doesn\'t exist.');
+		console.log('asdasd')
+		res.redirect('/admin/categories');
+	});
+};
+
 export const categoriesDeleteId = async (req, res) => {
 	category.deleteOne({
 		_id: req.params.id
@@ -105,4 +118,5 @@ export const categoriesDeleteId = async (req, res) => {
 		req.flash('error_msg', 'error deleting category.')
 		res.redirect('/admin/categories');
 	});
+
 };
