@@ -1,21 +1,21 @@
 <h3>New post:</h3>
 <div class="card">
 	<div class="card-body">
-		<form action="">
+		<form action="/admin/posts/new" method="POST">
 			<label for="title">Title:</label>
-			<input class="form-control" type="text" name="title">
+			<input class="form-control" type="text" name="title" required>
 			<label for="slug">Slug:</label>
-			<input class="form-control" type="text" name="slug">
+			<input class="form-control" type="text" name="slug" required>
 			<label for="description">Description:</label>
-			<input class="form-control" type="text" name="description">
+			<input class="form-control" type="text" name="description" required>
 			<label for="content">Content:</label>
-			<textarea class="form-control" rows="10" name="content"></textarea>
+			<textarea class="form-control" rows="10" name="content" required></textarea>
 			<label for="category">Category:</label>
 			<select class="form-select" name="category">
 				{{#each categories}}
 				<option value="{{_id}}">{{name}}</option>
 				{{else}}
-				<option value="">no registered category.</option>
+				<option value="0">no registered category.</option>
 				{{/each}}
 			</select>
 			<br>
