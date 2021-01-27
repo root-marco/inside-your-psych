@@ -19,6 +19,10 @@ export const postsAdd = async (req, res) => {
 	});
 };
 
+export const postsNew = async (req, res) => {
+	
+};
+
 // CATEGORIES
 
 export const categories = async (req, res) => {
