@@ -12,7 +12,9 @@ export const posts = async (req, res) => {
 
 export const postsAdd = async (req, res) => {
 	category.find().lean().then((categories) => {
-		res.render('admin/postsadd', { categories: categories });
+		res.render('admin/postsadd', {
+			categories: categories
+		});
 	}).catch((err) => {
 		res.flash('error_msg', 'error to load form.');
 		res.redirect('admin/posts');
@@ -20,7 +22,7 @@ export const postsAdd = async (req, res) => {
 };
 
 export const postsNew = async (req, res) => {
-	
+
 };
 
 // CATEGORIES
@@ -79,48 +81,50 @@ export const categoriesNew = async (req, res) => {
 };
 
 export const categoriesEdit = async (req, res) => {
-	category.findOne({
-		_id: req.body.id
-	}).then((category) => {
-		category.name = req.body.name;
-		category.slug = req.body.slug;
-
-		category.save().then(() => {
+	try {
+		const findOne = await category.findOne({
+			_id: req.body.id
+		});
+		console.log(findOne);
+		findOne.name = req.body.name;
+		findOne.slug = req.body.slug;
+		try {
+			findOne.save();
 			req.flash('success_msg', 'successfully edited category.');
 			res.redirect('/admin/categories');
-		}).catch((err) => {
-			req.flash('error_msg', 'error when editing category.')
+		} catch (err) {
+			req.flash('error_msg', 'error when editing category. 1');
 			res.redirect('/admin/categories');
-		});
-	}).catch((err) => {
-		req.flash('error_msg', 'error when editing category.');
+		}
+	} catch (err) {
+		req.flash('error_msg', 'error when editing category. 2');
 		res.redirect('/admin/categories');
-	})
+	}
 };
 
 export const categoriesEditId = async (req, res) => {
-	category.findOne({
-		_id: req.params.id
-	}).lean().then((category) => {
+	try {
+		const findOne = await category.findOne({
+			_id: req.params.id
+		}).lean();
 		res.render('admin/categoriesedit', {
-			category: category
+			category: findOne
 		});
-	}).catch((err) => {
+	} catch (err) {
 		req.flash('error_msg', 'this category doesn\'t exist.');
-		console.log('asdasd')
 		res.redirect('/admin/categories');
-	});
+	}
 };
 
 export const categoriesDeleteId = async (req, res) => {
-	category.deleteOne({
-		_id: req.params.id
-	}).lean().then(() => {
+	try {
+		await category.deleteOne({
+			_id: req.params.id
+		});
 		req.flash('success_msg', 'successfully deleted category.')
 		res.redirect('/admin/categories');
-	}).catch((error) => {
+	} catch (err) {
 		req.flash('error_msg', 'error deleting category.')
 		res.redirect('/admin/categories');
-	});
-
+	}
 };
