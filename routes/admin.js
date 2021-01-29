@@ -5,10 +5,12 @@ const router = express.Router();
 
 router.get('/', admin.root);
 
+// POSTS
 router.get('/posts', admin.posts);
 router.get('/posts/add', admin.postsAdd);
 router.get('/posts/new', admin.postsNew);
 
+// CATEGORIES
 router.get('/categories', admin.categories);
 router.get('/categories/add', admin.categoriesAdd);
 router.get('/categories/edit/:id', admin.categoriesEditId);
