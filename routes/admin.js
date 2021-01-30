@@ -8,7 +8,7 @@ router.get('/', admin.root);
 // POSTS
 router.get('/posts', admin.posts);
 router.get('/posts/add', admin.postsAdd);
-router.get('/posts/new', admin.postsNew);
+router.post('/posts/new', admin.postsNew);
 
 // CATEGORIES
 router.get('/categories', admin.categories);
