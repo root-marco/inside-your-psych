@@ -1,9 +1,10 @@
 import category from '../models/Category.js';
+import post from '../models/Post.js';
 
 export const root = async (req, res) => {
 
 	res.render('admin/index');
-	
+
 };
 
 // POSTS
@@ -17,18 +18,74 @@ export const posts = async (req, res) => {
 export const postsAdd = async (req, res) => {
 
 	try {
-		const find = await category.find().lean();
+		const categoryFind = await category.find().lean();
 		res.render('admin/postsadd', {
-			categories: categories
+			categories: categoryFind,
 		});
 	} catch {
-		res.flash('error_msg', 'error to load form.');
+		req.flash('error_msg', 'error to load form.');
 		res.redirect('admin/posts');
 	}
 
 };
 
 export const postsNew = async (req, res) => {
+
+	let errors = [];
+
+	const title = req.body.title;
+	const slug = req.body.slug;
+	const description = req.body.description;
+	const content = req.body.content;
+	const category = req.body.category;
+
+	if (!title || typeof title == undefined || title == null) {
+		errors.push({
+			text: 'Invalid title',
+		});
+	}
+	if (!slug || typeof slug == undefined || slug == null) {
+		errors.push({
+			text: 'Invalid slug',
+		});
+	}
+	if (!description || typeof description == undefined || description == null) {
+		errors.push({
+			text: 'Invalid description',
+		});
+	}
+	if (!content || typeof content == undefined || content == null) {
+		errors.push({
+			text: 'Invalid content',
+		});
+	}
+	if (category == '0') {
+		errors.push({
+			text: 'Invalid category',
+		});
+	}
+
+	if (errors.length == 0) {
+		const newPost = {
+			title: title,
+			slug: slug,
+			description: description,
+			content: content,
+			category: category,
+		}
+
+		try {
+			await new post(newPost).save();
+			req.flash('success_msg', 'successfully created post.');
+			res.redirect('/admin/posts');
+		} catch {
+			req.flash('error_msg', 'error creating post.');
+		}
+	} else {
+		res.render('admin/postsadd', {
+			errors: errors,
+		});
+	}
 
 };
 
@@ -37,11 +94,11 @@ export const postsNew = async (req, res) => {
 export const categories = async (req, res) => {
 
 	try {
-		const find = await category.find().sort({
+		const categoryFind = await category.find().sort({
 			_id: -1
 		}).lean();
 		res.render('admin/categories', {
-			categories: find
+			categories: categoryFind,
 		});
 	} catch {
 		req.flash('error_msg', 'unable to list categories.');
@@ -67,7 +124,6 @@ export const categoriesNew = async (req, res) => {
 			text: 'Invalid name',
 		});
 	}
-
 	if (!slug || typeof slug == undefined || slug == null) {
 		errors.push({
 			text: 'Invalid slug',
@@ -81,12 +137,11 @@ export const categoriesNew = async (req, res) => {
 		}
 
 		try {
-			await new category(newCategory).save()
+			await new category(newCategory).save();
 			req.flash('success_msg', 'successfully created category.');
 			res.redirect('/admin/categories');
 		} catch {
 			req.flash('error_msg', 'error creating category.');
-			console.log('error');
 		}
 	} else {
 		res.render('admin/categoriesadd', {
@@ -141,11 +196,11 @@ export const categoriesEdit = async (req, res) => {
 export const categoriesEditId = async (req, res) => {
 
 	try {
-		const findOne = await category.findOne({
+		const categoryFindOne = await category.findOne({
 			_id: req.params.id
 		}).lean();
 		res.render('admin/categoriesedit', {
-			category: findOne
+			category: categoryFindOne
 		});
 	} catch {
 		req.flash('error_msg', 'this category doesn\'t exist.');
