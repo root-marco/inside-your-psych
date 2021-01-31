@@ -3,3 +3,22 @@
 </a>
 
 <h2>List of posts:</h2>
+
+{{#each posts}}
+<div class="card mt-4">
+	
+	<div class="card-body">
+
+		<h4>Title: {{title}}</h4>
+		<p>Description: {{description}}</p>
+		<small>Category: {{category.name}}</small>
+
+	</div>
+
+</div>
+
+{{else}}
+
+<h4 class="mt-5">no registered post</h4>
+
+{{/each}}
