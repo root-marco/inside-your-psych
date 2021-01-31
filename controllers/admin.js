@@ -11,7 +11,18 @@ export const root = async (req, res) => {
 
 export const posts = async (req, res) => {
 
-	res.render('admin/posts');
+	try {
+		const postFind = await post.find().sort({
+			_id: -1,
+		}).populate('category').lean();
+		res.render('admin/posts', {
+			posts: postFind,
+		});
+	} catch {
+		req.flash('error_msg', 'unable to list posts.');
+		res.redirect('/posts');
+	}
+
 
 };
 
@@ -87,6 +98,8 @@ export const postsNew = async (req, res) => {
 		});
 	}
 
+	console.log(category)
+
 };
 
 // CATEGORIES
@@ -95,7 +108,7 @@ export const categories = async (req, res) => {
 
 	try {
 		const categoryFind = await category.find().sort({
-			_id: -1
+			_id: -1,
 		}).lean();
 		res.render('admin/categories', {
 			categories: categoryFind,
@@ -148,6 +161,7 @@ export const categoriesNew = async (req, res) => {
 			errors: errors,
 		});
 	}
+
 };
 
 export const categoriesEdit = async (req, res) => {
