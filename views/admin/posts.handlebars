@@ -6,12 +6,20 @@
 
 {{#each posts}}
 <div class="card mt-4">
-	
+
 	<div class="card-body">
 
-		<h4>Title: {{title}}</h4>
-		<p>Description: {{description}}</p>
-		<small>Category: {{category.name}}</small>
+		<h3>Title: {{title}}</h3>
+		<h6>Description: {{description}}</h6>
+		<p>Category: {{category.name}}</p>
+
+		<a href="/admin/posts/edit/{{_id}}">
+			<button class="text-center btn btn-secondary">Edit</button>
+		</a>
+
+		<a href="/admin/posts/delete/{{_id}}">
+			<button class="btn btn-danger">Delete</button>
+		</a>
 
 	</div>
 
