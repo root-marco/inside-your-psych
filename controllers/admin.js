@@ -102,6 +102,29 @@ export const postsNew = async (req, res) => {
 
 };
 
+export const postsEdit = async (req, res) => {
+
+};
+
+export const postsEditId = async (req, res) => {
+	res.render('admin/postsedit');
+};
+
+export const postsDeleteId = async (req, res) => {
+
+	try {
+		await post.deleteOne({
+			_id: req.params.id,
+		});
+		req.flash('success_msg', 'successfully deleted post.');
+		res.redirect('/admin/posts');
+	} catch {
+		req.flash('error_msg', 'error deleting post.');
+		res.redirect('/admin/posts');
+	}
+
+};
+
 // CATEGORIES
 
 export const categories = async (req, res) => {
@@ -148,7 +171,6 @@ export const categoriesNew = async (req, res) => {
 			name: name,
 			slug: slug,
 		}
-
 		try {
 			await new category(newCategory).save();
 			req.flash('success_msg', 'successfully created category.');
@@ -172,18 +194,18 @@ export const categoriesEdit = async (req, res) => {
 
 	if (!name || typeof name == undefined || name == null)
 		errors.push({
-			text: 'Invalid name'
+			text: 'Invalid name',
 		});
 
 	if (!slug || typeof slug == undefined || slug == null)
 		errors.push({
-			text: 'Invalid slug'
+			text: 'Invalid slug',
 		});
 
 	if (errors.length == 0) {
 		try {
 			const findOne = await category.findOne({
-				_id: req.body.id
+				_id: req.body.id,
 			});
 			findOne.name = req.body.name;
 			findOne.slug = req.body.slug;
@@ -201,7 +223,7 @@ export const categoriesEdit = async (req, res) => {
 		}
 	} else {
 		res.render('admin/categoriesedit', {
-			errors: errors
+			errors: errors,
 		});
 	}
 
@@ -211,10 +233,10 @@ export const categoriesEditId = async (req, res) => {
 
 	try {
 		const categoryFindOne = await category.findOne({
-			_id: req.params.id
+			_id: req.params.id,
 		}).lean();
 		res.render('admin/categoriesedit', {
-			category: categoryFindOne
+			category: categoryFindOne,
 		});
 	} catch {
 		req.flash('error_msg', 'this category doesn\'t exist.');
@@ -227,12 +249,12 @@ export const categoriesDeleteId = async (req, res) => {
 
 	try {
 		await category.deleteOne({
-			_id: req.params.id
+			_id: req.params.id,
 		});
-		req.flash('success_msg', 'successfully deleted category.')
+		req.flash('success_msg', 'successfully deleted category.');
 		res.redirect('/admin/categories');
 	} catch {
-		req.flash('error_msg', 'error deleting category.')
+		req.flash('error_msg', 'error deleting category.');
 		res.redirect('/admin/categories');
 	}
 
