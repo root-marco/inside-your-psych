@@ -8,6 +8,7 @@ import session from 'express-session';
 import flash from 'connect-flash';
 
 import adminRouter from './routes/admin.js';
+import rootRouter from './routes/root.js'
 
 const app = express();
 const port = 3000;
@@ -53,9 +54,6 @@ db.on('error', console.error.bind(console, 'connection error'));
 
 // ROUTES
 app.use('/admin', adminRouter);
-
-app.get('/', (req, res) => {
-	res.send('<a href="/admin">admin</a>')
-});
+app.use('/', rootRouter);
 
 app.listen(port, () => console.log(`server running`));
