@@ -7,15 +7,16 @@
 <h3>Edit post:</h3>
 <div class="card">
 	<div class="card-body">
-		<form action="/admin/posts/new" method="POST">
+		<form action="/admin/posts/edit" method="POST">
+			<input type="hidden" name="id" value="{{post._id}}">
 			<label for="title">Title:</label>
-			<input class="form-control" type="text" name="title">
+			<input class="form-control" type="text" name="title" value="{{post.title}}">
 			<label for="slug">Slug:</label>
-			<input class="form-control" type="text" name="slug">
+			<input class="form-control" type="text" name="slug" value="{{post.slug}}">
 			<label for="description">Description:</label>
-			<input class="form-control" type="text" name="description">
+			<input class="form-control" type="text" name="description" value="{{post.description}}">
 			<label for="content">Content:</label>
-			<textarea class="form-control" rows="10" name="content"></textarea>
+			<textarea class="form-control" rows="10" name="content">{{post.content}}</textarea>
 			<label for="category">Category:</label>
 			<select class="form-select" name="category">
 				{{#each categories}}
