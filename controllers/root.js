@@ -15,3 +15,7 @@ export const root = async (req, res) => {
 	}
 
 };
+
+export const error404 = async (req, res) => {
+	res.send('<h1>ERROR 404</h1>');
+};
