@@ -1,7 +1,9 @@
 import category from '../models/Category.js';
 import post from '../models/Post.js';
 
-export const root = async (req, res) => {
+// ADMIN
+
+export const admin = async (req, res) => {
 
 	res.render('admin/index');
 
@@ -12,11 +14,11 @@ export const root = async (req, res) => {
 export const posts = async (req, res) => {
 
 	try {
-		const postFind = await post.find().sort({
+		const find = await post.find().sort({
 			_id: -1,
 		}).populate('category').lean();
 		res.render('admin/posts', {
-			posts: postFind,
+			posts: find,
 		});
 	} catch {
 		req.flash('error_msg', 'unable to list posts.');
