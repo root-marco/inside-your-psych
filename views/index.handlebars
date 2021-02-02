@@ -1,11 +1,26 @@
 <div class="jumbotron">
-  <h1 class="display-4">Welcome to inside your psych blog!</h1>
+  <h1 class="display-4">Inside your psych</h1>
   <p class="lead">Neuroscience and psychology news and views.</p>
-  <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Register</a>
-  </p>
 </div>
 
 <hr>
 
-<h2>Recent posts: </h2>
+<h2>List of posts:</h2>
+
+{{#each posts}}
+<div class="card mt-4">
+
+	<div class="card-body">
+
+		<h3>{{title}}</h3>
+		<h6>{{description}}</h6>
+
+	</div>
+
+</div>
+
+{{else}}
+
+<h4 class="mt-5">no registered post</h4>
+
+{{/each}}
