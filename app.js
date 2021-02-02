@@ -1,4 +1,3 @@
-/* MODULES */
 import express from 'express';
 import handlebars from 'express-handlebars';
 import bodyParser from 'body-parser';
@@ -13,7 +12,6 @@ import rootRouter from './routes/root.js'
 const app = express();
 const port = 3000;
 
-// SESSION
 app.use(session({
 	secret: '0152',
 	resave: true,
@@ -21,38 +19,32 @@ app.use(session({
 }));
 app.use(flash());
 
-// MIDDLEWARE
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
 	next();
 });
 
-// BODY PARSER
 app.use(bodyParser.urlencoded({
-	extended: true
+	extended: true,
 }));
 app.use(bodyParser.json());
 
-// HANDLEBARS
 app.engine('handlebars', handlebars({
-	defaultLayout: 'main'
+	defaultLayout: 'main',
 }));
 app.set('view engine', 'handlebars');
 
-// PUBLIC
 app.use(express.static(path.resolve('public')));
 
-// MONGOOSE
 const db = mongoose.connection;
 mongoose.connect('mongodb://localhost:27017/inside-your-psych', {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
 });
 db.on('open', () => console.log('database connected'));
 db.on('error', console.error.bind(console, 'connection error'));
 
-// ROUTES
 app.use('/admin', adminRouter);
 app.use('/', rootRouter);
 
