@@ -98,16 +98,56 @@ export const postsNew = async (req, res) => {
 		});
 	}
 
-	console.log(category)
-
 };
 
 export const postsEdit = async (req, res) => {
 
+	try {
+		const findOne = await post.findOne({
+			_id: req.body.id,
+		});
+		findOne.title = req.body.title;
+		findOne.slug = req.body.slug;
+		findOne.description = req.body.description;
+		findOne.content = req.body.content;
+		findOne.category = req.body.category;
+		try {
+			findOne.save();
+			req.flash('success_msg', 'successfully edited post.');
+			res.redirect('/admin/posts');
+		} catch {
+			req.flash('error_msg', 'error when save post.');
+			res.redirect('/admin/posts');
+		}
+
+	} catch {
+	 	req.flash('error_msg', 'error when find post.');
+		res.redirect('/admin/posts');
+	}
+
 };
 
 export const postsEditId = async (req, res) => {
-	res.render('admin/postsedit');
+
+	try {
+		const findOne = await post.findOne({
+			_id: req.params.id,
+		}).lean();
+		try {
+			const find = await category.find().lean();
+			res.render('admin/postsedit', {
+				categories: find,
+				post: findOne,
+			});
+		} catch {
+			req.flash('error_msg', 'failed to list categories');
+			res.redirect('/admin/posts');
+		}
+	} catch {
+		req.flash('error_msg', 'failed to load form');
+		res.redirect('/admin/posts');
+	}
+
 };
 
 export const postsDeleteId = async (req, res) => {
