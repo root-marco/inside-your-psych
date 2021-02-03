@@ -28,7 +28,7 @@ export const postSlug = async (req, res) => {
 		}).lean();
 
 		if (findOne) {
-			res.render('post/index', {
+			res.render('post/post', {
 				post: findOne,
 			});
 		} else {
