@@ -16,6 +16,29 @@ export const root = async (req, res) => {
 
 };
 
-export const error404 = async (req, res) => {
+export const error404 = (req, res) => {
 	res.send('<h1>ERROR 404</h1>');
+};
+
+export const postSlug = async (req, res) => {
+
+	try {
+		const findOne = await post.findOne({
+			slug: req.params.slug,
+		}).lean();
+
+		if (findOne) {
+			res.render('post/index', {
+				post: findOne,
+			});
+		} else {
+			req.flash('error_msg', 'this post doesn\`t exist');
+			res.redirect('/');
+		}
+
+	} catch {
+		req.flash('error_msg', 'there was an internal error.');
+		res.redirect('/');
+	}
+
 };
