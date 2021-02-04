@@ -3,9 +3,10 @@
 {{else}}
 
 {{/each}}
+
 <head>
 	<meta charset="utf-8">
-    <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+	<script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
 </head>
 <h3>Edit post:</h3>
 <div class="card">
@@ -35,8 +36,8 @@
 </div>
 <script>
 	ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
+		.create(document.querySelector('#editor'))
+		.catch(error => {
+			console.error(error);
+		});
 </script>
