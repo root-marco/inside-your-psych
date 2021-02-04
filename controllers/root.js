@@ -1,4 +1,5 @@
 import post from '../models/Post.js';
+import category from '../models/Category.js';
 
 export const root = async (req, res) => {
 
@@ -38,6 +39,20 @@ export const postSlug = async (req, res) => {
 
 	} catch {
 		req.flash('error_msg', 'there was an internal error.');
+		res.redirect('/');
+	}
+
+};
+
+export const categories = async (req, res) => {
+
+	try {
+		const find = await category.find().lean();
+		res.render('category/category', {
+			categories: find,
+		});
+	} catch {
+		req.flash('error_msg', 'cannot find categories');
 		res.redirect('/');
 	}
 
