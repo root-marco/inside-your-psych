@@ -95,7 +95,7 @@ export const postsNew = async (req, res) => {
 			req.flash('error_msg', 'error creating post.');
 		}
 	} else {
-		res.render('admin/postsadd', {
+		res.render('admin/posts', {
 			errors: errors,
 		});
 	}
