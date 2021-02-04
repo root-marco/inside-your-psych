@@ -1,0 +1,21 @@
+<h1>{{category.name}}</h1>
+
+{{#each posts}}
+<div class="card mt-4">
+
+	<div class="card-body">
+
+		<h3>{{title}}</h3>
+		<h6>{{description}}</h6>
+		<a href="/post/{{slug}}">
+			<button class="btn btn-success">Read more...</button>
+		</a>
+	</div>
+
+</div>
+
+{{else}}
+
+<h4 class="mt-5">no registered post</h4>
+
+{{/each}}
