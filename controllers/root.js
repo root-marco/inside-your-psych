@@ -17,10 +17,6 @@ export const root = async (req, res) => {
 
 };
 
-export const error404 = (req, res) => {
-	res.send('<h1>ERROR 404</h1>');
-};
-
 export const postSlug = async (req, res) => {
 
 	try {
@@ -52,8 +48,44 @@ export const categories = async (req, res) => {
 			categories: find,
 		});
 	} catch {
-		req.flash('error_msg', 'cannot find categories');
+		req.flash('error_msg', 'cannot find categories.');
 		res.redirect('/');
 	}
 
+};
+
+export const categoriesSlug = async (req, res) => {
+
+	try {
+		const findOne = await category.findOne({
+			slug: req.params.slug,
+		}).lean();
+
+		if (findOne) {
+			try {
+				const find = await post.find({
+					category: findOne._id,
+				}).lean();
+				res.render('category/posts', {
+					posts: find,
+					category: findOne, 
+				});
+			} catch {
+				req.flash('error_msg', 'error to load posts');
+				res.redirect('/categories');
+			}
+		} else {
+			req.flash('error_msg', 'this category doesn\'t exist.');
+			res.redirect('/categories');
+		}
+
+	} catch {
+		req.flash('error_msg', 'cannot find category.');
+		res.redirect('/categories');
+	}
+
+};
+
+export const error404 = (req, res) => {
+	res.send('<h1>ERROR 404</h1>');
 };
