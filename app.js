@@ -7,7 +7,8 @@ import session from 'express-session';
 import flash from 'connect-flash';
 
 import adminRouter from './routes/admin.js';
-import rootRouter from './routes/root.js'
+import rootRouter from './routes/root.js';
+import userRouter from './routes/user.js';
 
 const app = express();
 const port = 3000;
@@ -37,14 +38,17 @@ app.set('view engine', 'handlebars');
 
 app.use(express.static(path.resolve('public')));
 
-const db = mongoose.connection;
-mongoose.connect('mongodb://localhost:27017/inside-your-psych', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
-db.on('open', () => console.log('database connected'));
-db.on('error', console.error.bind(console, 'connection error'));
+try {
+	await mongoose.connect('mongodb://localhost:27017/inside-your-psych', {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+	});
+	console.log('database connected');
+} catch(error) {
+	handleError(error);
+}
 
+app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/', rootRouter);
 
