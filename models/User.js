@@ -13,6 +13,10 @@ const User = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	isAdmin: {
+		type: Number,
+		default: 0,
+	},
 });
 
 const user = mongoose.model('user', User);
