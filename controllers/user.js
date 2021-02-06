@@ -88,3 +88,9 @@ export const registerNew = async (req, res) => {
 	}
 
 };
+
+export const login = async (req, res) => {
+
+	res.render('users/login');
+
+}
