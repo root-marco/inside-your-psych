@@ -5,6 +5,8 @@ import path from 'path';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import flash from 'connect-flash';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import adminRouter from './routes/admin.js';
 import rootRouter from './routes/root.js';
@@ -15,7 +17,7 @@ import configAuth from './config/auth.js';
 configAuth(passport);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(session({
 	secret: '0152',
@@ -49,13 +51,13 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.resolve('public')));
 
 try {
-	await mongoose.connect('mongodb://localhost:27017/inside-your-psych', {
+	await mongoose.connect(process.env.mongoURI, {
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 	});
 	console.log('database connected');
 } catch(error) {
-	handleError(error);
+	console.log(error);
 }
 
 app.use('/user', userRouter);
