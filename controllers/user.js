@@ -1,9 +1,16 @@
 import user from '../models/User.js';
 import bcrypt from 'bcryptjs';
+import passport from 'passport';
 
 export const register = (req, res) => {
 
 	res.render('users/register');
+
+};
+
+export const login = async (req, res) => {
+
+	res.render('users/login');
 
 };
 
@@ -89,8 +96,12 @@ export const registerNew = async (req, res) => {
 
 };
 
-export const login = async (req, res) => {
+export const loginNew = async (req, res, next) => {
 
-	res.render('users/login');
+	passport.authenticate('local', {
+		successRedirect: '/',
+		failureRedirect: '/user/login',
+		failureFlash: true,
+	})(req, res, next);
 
-}
+};
