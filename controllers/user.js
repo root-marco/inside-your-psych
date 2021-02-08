@@ -105,3 +105,11 @@ export const loginNew = async (req, res, next) => {
 	})(req, res, next);
 
 };
+
+export const logout = (req, res) => {
+
+	req.logout();
+	req.flash('success_msg', 'successfully logout')
+	res.redirect('/');
+
+};
