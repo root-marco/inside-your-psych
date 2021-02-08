@@ -23,6 +23,9 @@
 					<a class="nav-link" href="/admin/categories">adminCategories</a>
 				</li>
 			</ul>
+			{{#if user}}
+
+			{{else}}
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0 float-right">
 				<li class="nav-item">
 					<a class="nav-link float-start" href="/user/login">Login</a>
@@ -31,6 +34,7 @@
 					<a class="nav-link" href="/user/register">Register</a>
 				</li>
 			</ul>
+			{{/if}}
 
 		</div>
 	</div>
