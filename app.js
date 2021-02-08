@@ -10,6 +10,10 @@ import adminRouter from './routes/admin.js';
 import rootRouter from './routes/root.js';
 import userRouter from './routes/user.js';
 
+import passport from 'passport';
+import configAuth from './config/auth.js';
+configAuth(passport);
+
 const app = express();
 const port = 3000;
 
@@ -18,6 +22,10 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true,
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 app.use((req, res, next) => {
