@@ -3,15 +3,15 @@ import post from '../models/Post.js';
 
 // ADMIN
 
-export const admin = async (req, res) => {
+export function admin(req, res) {
 
 	res.render('admin/index');
 
-};
+}
 
 // POSTS
 
-export const posts = async (req, res) => {
+export async function posts(req, res) {
 
 	try {
 		const find = await post.find().sort({
@@ -26,9 +26,9 @@ export const posts = async (req, res) => {
 	}
 
 
-};
+}
 
-export const postsAdd = async (req, res) => {
+export async function postsAdd(req, res) {
 
 	try {
 		const categoryFind = await category.find().lean();
@@ -40,9 +40,9 @@ export const postsAdd = async (req, res) => {
 		res.redirect('admin/posts');
 	}
 
-};
+}
 
-export const postsNew = async (req, res) => {
+export async function postsNew(req, res) {
 
 	let errors = [];
 
@@ -85,7 +85,7 @@ export const postsNew = async (req, res) => {
 			description: description,
 			content: content,
 			category: category,
-		}
+		};
 
 		try {
 			await new post(newPost).save();
@@ -100,9 +100,9 @@ export const postsNew = async (req, res) => {
 		});
 	}
 
-};
+}
 
-export const postsEdit = async (req, res) => {
+export async function postsEdit(req, res) {
 
 	try {
 		const findOne = await post.findOne({
@@ -123,13 +123,13 @@ export const postsEdit = async (req, res) => {
 		}
 
 	} catch {
-	 	req.flash('error_msg', 'error when find post.');
+		req.flash('error_msg', 'error when find post.');
 		res.redirect('/admin/posts');
 	}
 
-};
+}
 
-export const postsEditId = async (req, res) => {
+export async function postsEditId(req, res) {
 
 	try {
 		const findOne = await post.findOne({
@@ -150,9 +150,9 @@ export const postsEditId = async (req, res) => {
 		res.redirect('/admin/posts');
 	}
 
-};
+}
 
-export const postsDeleteId = async (req, res) => {
+export async function postsDeleteId(req, res) {
 
 	try {
 		await post.deleteOne({
@@ -165,7 +165,7 @@ export const postsDeleteId = async (req, res) => {
 		res.redirect('/admin/posts');
 	}
 
-};
+}
 
 // CATEGORIES
 
