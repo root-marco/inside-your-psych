@@ -12,8 +12,8 @@ import adminRouter from './routes/admin.js';
 import rootRouter from './routes/root.js';
 import userRouter from './routes/user.js';
 
-import passport from 'passport';
 import configAuth from './config/auth.js';
+import passport from 'passport';
 configAuth(passport);
 
 const app = express();
