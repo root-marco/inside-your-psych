@@ -2,19 +2,19 @@ import user from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
 
-export const register = (req, res) => {
+export function register(req, res) {
 
 	res.render('users/register');
 
-};
+}
 
-export const login = async (req, res) => {
+export function login(req, res) {
 
 	res.render('users/login');
 
-};
+}
 
-export const registerNew = async (req, res) => {
+export async function registerNew(req, res) {
 
 	let errors = [];
 
@@ -47,7 +47,6 @@ export const registerNew = async (req, res) => {
 	if (errors.length == 0) {
 
 		try {
-
 			const findOne = await user.findOne({
 				email: req.body.email,
 			});
@@ -94,9 +93,9 @@ export const registerNew = async (req, res) => {
 		});
 	}
 
-};
+}
 
-export const loginNew = async (req, res, next) => {
+export function loginNew(req, res, next) {
 
 	passport.authenticate('local', {
 		successRedirect: '/',
@@ -104,12 +103,12 @@ export const loginNew = async (req, res, next) => {
 		failureFlash: true,
 	})(req, res, next);
 
-};
+}
 
-export const logout = (req, res) => {
+export function logout(req, res) {
 
 	req.logout();
-	req.flash('success_msg', 'successfully logout')
+	req.flash('success_msg', 'successfully logout');
 	res.redirect('/');
 
-};
+}
