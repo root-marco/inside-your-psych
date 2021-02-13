@@ -169,7 +169,7 @@ export async function postsDeleteId(req, res) {
 
 // CATEGORIES
 
-export const categories = async (req, res) => {
+export async function categories(req, res) {
 
 	try {
 		const categoryFind = await category.find().sort({
@@ -183,15 +183,15 @@ export const categories = async (req, res) => {
 		res.redirect('/admin');
 	}
 
-};
+}
 
-export const categoriesAdd = async (req, res) => {
+export function categoriesAdd(req, res) {
 
 	res.render('admin/categoriesadd');
 
-};
+}
 
-export const categoriesNew = async (req, res) => {
+export async function categoriesNew(req, res) {
 
 	let errors = [];
 	const name = req.body.name;
@@ -212,7 +212,7 @@ export const categoriesNew = async (req, res) => {
 		const newCategory = {
 			name: name,
 			slug: slug,
-		}
+		};
 		try {
 			await new category(newCategory).save();
 			req.flash('success_msg', 'successfully created category.');
@@ -226,9 +226,9 @@ export const categoriesNew = async (req, res) => {
 		});
 	}
 
-};
+}
 
-export const categoriesEdit = async (req, res) => {
+export async function categoriesEdit(req, res) {
 
 	let errors = [];
 	const name = req.body.name;
@@ -269,9 +269,9 @@ export const categoriesEdit = async (req, res) => {
 		});
 	}
 
-};
+}
 
-export const categoriesEditId = async (req, res) => {
+export async function categoriesEditId(req, res) {
 
 	try {
 		const categoryFindOne = await category.findOne({
@@ -285,9 +285,9 @@ export const categoriesEditId = async (req, res) => {
 		res.redirect('/admin/categories');
 	}
 
-};
+}
 
-export const categoriesDeleteId = async (req, res) => {
+export async function categoriesDeleteId(req, res) {
 
 	try {
 		await category.deleteOne({
@@ -300,4 +300,4 @@ export const categoriesDeleteId = async (req, res) => {
 		res.redirect('/admin/categories');
 	}
 
-};
+}
