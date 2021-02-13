@@ -1,7 +1,7 @@
 import post from '../models/Post.js';
 import category from '../models/Category.js';
 
-export const root = async (req, res) => {
+export async function root(req, res) {
 
 	try {
 		const find = await post.find().sort({
@@ -15,9 +15,9 @@ export const root = async (req, res) => {
 		res.redirect('/404');
 	}
 
-};
+}
 
-export const postSlug = async (req, res) => {
+export async function postSlug(req, res) {
 
 	try {
 		const findOne = await post.findOne({
@@ -38,9 +38,9 @@ export const postSlug = async (req, res) => {
 		res.redirect('/');
 	}
 
-};
+}
 
-export const categories = async (req, res) => {
+export async function categories(req, res) {
 
 	try {
 		const find = await category.find().lean();
@@ -52,9 +52,9 @@ export const categories = async (req, res) => {
 		res.redirect('/');
 	}
 
-};
+}
 
-export const categoriesSlug = async (req, res) => {
+export async function categoriesSlug(req, res) {
 
 	try {
 		const findOne = await category.findOne({
@@ -68,7 +68,7 @@ export const categoriesSlug = async (req, res) => {
 				}).lean();
 				res.render('category/posts', {
 					posts: find,
-					category: findOne, 
+					category: findOne,
 				});
 			} catch {
 				req.flash('error_msg', 'error to load posts');
@@ -84,8 +84,10 @@ export const categoriesSlug = async (req, res) => {
 		res.redirect('/categories');
 	}
 
-};
+}
 
 export const error404 = (req, res) => {
+
 	res.send('<h1>ERROR 404</h1>');
+
 };
