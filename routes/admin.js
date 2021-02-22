@@ -1,6 +1,6 @@
 import express from 'express';
 import * as admin from '../controllers/admin.js';
-import isAdmin from '../helpers/isAdmin.js'
+import isAdmin from '../helpers/isAdmin.js';
 
 const router = express.Router();
 
