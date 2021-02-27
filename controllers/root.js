@@ -86,8 +86,8 @@ export async function categoriesSlug(req, res) {
 
 }
 
-export const error404 = (req, res) => {
+export function error404(req, res) {
 
 	res.send('<h1>ERROR 404</h1>');
 
-};
+}
