@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import passportLocal from 'passport-local';
 
 import User from '../models/User.js';
 
-import passportLocal from 'passport-local';
 const localStrategy = passportLocal.Strategy;
 
 export default passport => {
