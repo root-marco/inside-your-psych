@@ -155,9 +155,7 @@ export async function postsEditId(req, res) {
 export async function postsDeleteId(req, res) {
 
 	try {
-		await post.deleteOne({
-			_id: req.params.id,
-		});
+		await post.findByIdAndDelete(req.params.id);
 		req.flash('success_msg', 'successfully deleted post.');
 		res.redirect('/admin/posts');
 	} catch {
@@ -290,9 +288,7 @@ export async function categoriesEditId(req, res) {
 export async function categoriesDeleteId(req, res) {
 
 	try {
-		await category.deleteOne({
-			_id: req.params.id,
-		});
+		await category.findByIdAndDelete(req.params.id);
 		req.flash('success_msg', 'successfully deleted category.');
 		res.redirect('/admin/categories');
 	} catch {
