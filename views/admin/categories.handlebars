@@ -17,9 +17,9 @@
 			<button class="text-center btn btn-secondary">Edit</button>
 		</a>
 
-		<a href="/admin/categories/delete/{{_id}}">
-			<button class="btn btn-danger">Delete</button>
-		</a>
+		<form action="/admin/categories/delete/{{_id}}?_method=DELETE" method="POST" class="d-inline">
+			<button type="submit" class="btn btn-danger">Delete</button>
+		</form>
 
 	</div>
 
