@@ -1,5 +1,6 @@
 // MODULES
 import dotenv from 'dotenv'; dotenv.config();
+import methodOverride from 'method-override';
 import handlebars from 'express-handlebars';
 import session from 'express-session';
 import bodyParser from 'body-parser';
@@ -13,6 +14,9 @@ import path from 'path';
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.static(path.resolve('public')));
+
+// METHOD OVERRIDE
+app.use(methodOverride('_method'));
 
 // SESSION
 app.use(session({
