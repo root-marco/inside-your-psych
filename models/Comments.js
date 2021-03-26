@@ -5,19 +5,23 @@ const Comment = new mongoose.Schema({
         type: String,
         required: true,
     },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
+    pageSlug:{
+        type: String,
         required: true,
     },
-},
-{
+    createdBy: {
+        type: String,
+        required: true,
+    }
+})
+/* {
     timestamps: {
         createdAt: {
             type: Date,
-            default: Date.now()
-        }
-    }
-});
+            default: Date.now(),
+        },
+    },
+}); */
 
 const comment = mongoose.model('comment', Comment);
 export default comment;
