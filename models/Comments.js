@@ -1,4 +1,4 @@
-import mongoose, { now } from "mongoose";
+import mongoose from "mongoose";
 
 const Comment = new mongoose.Schema({
     content: {
@@ -17,4 +17,7 @@ const Comment = new mongoose.Schema({
             default: Date.now()
         }
     }
-})
+});
+
+const comment = mongoose.model('comment', Comment);
+export default comment;
