@@ -1,10 +1,4 @@
-<div class="jumbotron">
-  <h1 class="display-4">Inside your psych</h1>
-</div>
-
-<hr>
-
-<h2>List of posts:</h2>
+<h1>{{category.name}}</h1>
 
 {{#each posts}}
 <div class="card mt-4">
@@ -16,9 +10,6 @@
 		<a href="/post/{{slug}}">
 			<button class="btn btn-success">Read more...</button>
 		</a>
-		<hr>
-		<small>Category: {{category.name}}</small>
-
 	</div>
 
 </div>

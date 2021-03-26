@@ -3,15 +3,15 @@ import post from '../models/Post.js';
 
 // ADMIN
 
-export const admin = async (req, res) => {
+export function admin(req, res) {
 
 	res.render('admin/index');
 
-};
+}
 
 // POSTS
 
-export const posts = async (req, res) => {
+export async function posts(req, res) {
 
 	try {
 		const find = await post.find().sort({
@@ -26,9 +26,9 @@ export const posts = async (req, res) => {
 	}
 
 
-};
+}
 
-export const postsAdd = async (req, res) => {
+export async function postsAdd(req, res) {
 
 	try {
 		const categoryFind = await category.find().lean();
@@ -40,9 +40,9 @@ export const postsAdd = async (req, res) => {
 		res.redirect('admin/posts');
 	}
 
-};
+}
 
-export const postsNew = async (req, res) => {
+export async function postsNew(req, res) {
 
 	let errors = [];
 
@@ -85,7 +85,7 @@ export const postsNew = async (req, res) => {
 			description: description,
 			content: content,
 			category: category,
-		}
+		};
 
 		try {
 			await new post(newPost).save();
@@ -95,14 +95,14 @@ export const postsNew = async (req, res) => {
 			req.flash('error_msg', 'error creating post.');
 		}
 	} else {
-		res.render('admin/postsadd', {
+		res.render('admin/posts', {
 			errors: errors,
 		});
 	}
 
-};
+}
 
-export const postsEdit = async (req, res) => {
+export async function postsEdit(req, res) {
 
 	try {
 		const findOne = await post.findOne({
@@ -123,13 +123,13 @@ export const postsEdit = async (req, res) => {
 		}
 
 	} catch {
-	 	req.flash('error_msg', 'error when find post.');
+		req.flash('error_msg', 'error when find post.');
 		res.redirect('/admin/posts');
 	}
 
-};
+}
 
-export const postsEditId = async (req, res) => {
+export async function postsEditId(req, res) {
 
 	try {
 		const findOne = await post.findOne({
@@ -150,14 +150,12 @@ export const postsEditId = async (req, res) => {
 		res.redirect('/admin/posts');
 	}
 
-};
+}
 
-export const postsDeleteId = async (req, res) => {
+export async function postsDeleteId(req, res) {
 
 	try {
-		await post.deleteOne({
-			_id: req.params.id,
-		});
+		await post.findByIdAndDelete(req.params.id);
 		req.flash('success_msg', 'successfully deleted post.');
 		res.redirect('/admin/posts');
 	} catch {
@@ -165,11 +163,11 @@ export const postsDeleteId = async (req, res) => {
 		res.redirect('/admin/posts');
 	}
 
-};
+}
 
 // CATEGORIES
 
-export const categories = async (req, res) => {
+export async function categories(req, res) {
 
 	try {
 		const categoryFind = await category.find().sort({
@@ -183,15 +181,15 @@ export const categories = async (req, res) => {
 		res.redirect('/admin');
 	}
 
-};
+}
 
-export const categoriesAdd = async (req, res) => {
+export function categoriesAdd(req, res) {
 
 	res.render('admin/categoriesadd');
 
-};
+}
 
-export const categoriesNew = async (req, res) => {
+export async function categoriesNew(req, res) {
 
 	let errors = [];
 	const name = req.body.name;
@@ -212,7 +210,7 @@ export const categoriesNew = async (req, res) => {
 		const newCategory = {
 			name: name,
 			slug: slug,
-		}
+		};
 		try {
 			await new category(newCategory).save();
 			req.flash('success_msg', 'successfully created category.');
@@ -226,9 +224,9 @@ export const categoriesNew = async (req, res) => {
 		});
 	}
 
-};
+}
 
-export const categoriesEdit = async (req, res) => {
+export async function categoriesEdit(req, res) {
 
 	let errors = [];
 	const name = req.body.name;
@@ -269,9 +267,9 @@ export const categoriesEdit = async (req, res) => {
 		});
 	}
 
-};
+}
 
-export const categoriesEditId = async (req, res) => {
+export async function categoriesEditId(req, res) {
 
 	try {
 		const categoryFindOne = await category.findOne({
@@ -285,14 +283,12 @@ export const categoriesEditId = async (req, res) => {
 		res.redirect('/admin/categories');
 	}
 
-};
+}
 
-export const categoriesDeleteId = async (req, res) => {
+export async function categoriesDeleteId(req, res) {
 
 	try {
-		await category.deleteOne({
-			_id: req.params.id,
-		});
+		await category.findByIdAndDelete(req.params.id);
 		req.flash('success_msg', 'successfully deleted category.');
 		res.redirect('/admin/categories');
 	} catch {
@@ -300,4 +296,4 @@ export const categoriesDeleteId = async (req, res) => {
 		res.redirect('/admin/categories');
 	}
 
-};
+}

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="/">Inside your psych</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -8,24 +8,28 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active" aria-current="page" href="/">Home</a>
+					<a class="nav-link" href="/">Posts</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/admin">admin</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/admin/categories">adminCategories</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/admin/posts">adminPosts</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/admin/posts">Login</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/admin/posts">Register</a>
+					<a class="nav-link" href="/categories">Categories</a>
 				</li>
 			</ul>
+			{{#if user}}
+			<ul class="navbar-nav me-5 mb-2 mb-lg-0 float-right">
+				<li class="nav-item">
+					<a class="nav-link float-start" href="/user/logout">Logout</a>
+				</li>
+			</ul>
+			{{else}}
+			<ul class="navbar-nav me-5 mb-2 mb-lg-0 float-right">
+				<li class="nav-item">
+					<a class="nav-link float-start" href="/user/login">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/user/register">Register</a>
+				</li>
+			</ul>
+			{{/if}}
 		</div>
 	</div>
 </nav>

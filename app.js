@@ -1,51 +1,78 @@
-import express from 'express';
+// MODULES
+import dotenv from 'dotenv'; dotenv.config();
+import methodOverride from 'method-override';
 import handlebars from 'express-handlebars';
-import bodyParser from 'body-parser';
-import path from 'path';
-import mongoose from 'mongoose';
 import session from 'express-session';
+import bodyParser from 'body-parser';
 import flash from 'connect-flash';
+import mongoose from 'mongoose';
+import passport from 'passport';
+import express from 'express';
+import path from 'path';
 
-import adminRouter from './routes/admin.js';
-import rootRouter from './routes/root.js'
-
+// APP
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
+app.use(express.static(path.resolve('public')));
 
+// METHOD OVERRIDE
+app.use(methodOverride('_method'));
+
+// SESSION
 app.use(session({
-	secret: '0152',
+	secret: process.env.SECRET,
 	resave: true,
 	saveUninitialized: true,
 }));
-app.use(flash());
 
+// PASSPORT
+import configAuth from './config/auth.js';
+app.use(passport.initialize());
+app.use(passport.session());
+configAuth(passport);
+
+// FLASH
+app.use(flash());
 app.use((req, res, next) => {
 	res.locals.success_msg = req.flash('success_msg');
 	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
 	next();
 });
 
+// BODY PARSER
 app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 app.use(bodyParser.json());
 
+// HANDLEBARS
 app.engine('handlebars', handlebars({
 	defaultLayout: 'main',
 }));
 app.set('view engine', 'handlebars');
 
-app.use(express.static(path.resolve('public')));
-
-const db = mongoose.connection;
-mongoose.connect('mongodb://localhost:27017/inside-your-psych', {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
-db.on('open', () => console.log('database connected'));
-db.on('error', console.error.bind(console, 'connection error'));
-
-app.use('/admin', adminRouter);
+// ROUTES
+import rootRouter from './routes/root.js';
 app.use('/', rootRouter);
+import adminRouter from './routes/admin.js';
+app.use('/admin', adminRouter);
+import userRouter from './routes/user.js';
+app.use('/user', userRouter);
 
-app.listen(port, () => console.log(`server running`));
+// MONGOOSE
+try {
+	await mongoose.connect(process.env.MONGOURI, {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+	});
+	console.log('database connected');
+} catch (error) {
+	console.log(error);
+}
+
+// LISTEN
+app.listen(PORT, () => {
+	console.log(`server running on localhost:${PORT}`);
+});
