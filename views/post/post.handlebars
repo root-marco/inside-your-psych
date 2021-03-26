@@ -5,3 +5,17 @@
 		<p style="white-space: pre-line">{{{post.content}}}</p>
 	</div>
 </div>
+
+<div class="card mt-4">
+		<form action="/post/{{post.slug}}/newComment" method="POST">
+		<label for="content">Add a comment...</label>
+		<input name="content" type="text">
+		<input type="submit" value="post">
+	</form>
+</div>
+
+{{#each comments}}
+<ul class="mt-4">
+	<li>{{content}}</h1>
+</ul>
+{{/each}}

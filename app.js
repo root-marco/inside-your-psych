@@ -3,7 +3,6 @@ import dotenv from 'dotenv'; dotenv.config();
 import methodOverride from 'method-override';
 import handlebars from 'express-handlebars';
 import session from 'express-session';
-import bodyParser from 'body-parser';
 import flash from 'connect-flash';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -42,10 +41,8 @@ app.use((req, res, next) => {
 });
 
 // BODY PARSER
-app.use(bodyParser.urlencoded({
-	extended: true,
-}));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // HANDLEBARS
 app.engine('handlebars', handlebars({
@@ -62,15 +59,15 @@ import userRouter from './routes/user.js';
 app.use('/user', userRouter);
 
 // MONGOOSE
-try {
-	await mongoose.connect(process.env.MONGOURI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
-	});
+mongoose.connect(process.env.MONGOURI, {
+	useUnifiedTopology: true,
+	useNewUrlParser: true,
+});
+const db = mongoose.connection;
+db.on('error', error => console.error(error));
+db.once('open', () => {
 	console.log('database connected');
-} catch (error) {
-	console.log(error);
-}
+});
 
 // LISTEN
 app.listen(PORT, () => {

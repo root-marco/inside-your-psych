@@ -1,5 +1,6 @@
 import post from '../models/Post.js';
 import category from '../models/Category.js';
+import comment from '../models/Comments.js';
 
 export async function root(req, res) {
 
@@ -17,16 +18,48 @@ export async function root(req, res) {
 
 }
 
-export async function postSlug(req, res) {
+export async function postComment(req, res) {
+
+	const content = req.body.content;
+
+	const pageSlug = post.findOne({
+		slug: req.params.slug,
+	});
+
+	const postComment = {
+		content: content,
+		pageSlug: req.params.slug,
+		createdBy: 'Gab/Marc',
+	};
 
 	try {
+		await new comment(postComment).save();
+		res.redirect(`/post/${req.params.slug}`);
+	}
+	catch {
+		req.flash('error_msg','Error creating comment');
+		res.redirect('/');
+	}
+
+};
+
+export async function postSlug(req, res) {
+
+	const slug = req.params.slug;
+	
+	try {
 		const findOne = await post.findOne({
-			slug: req.params.slug,
+			slug: slug,
+		}).lean();
+
+		const comments = await comment.find({
+			pageSlug: slug,
 		}).lean();
 
 		if (findOne) {
 			res.render('post/post', {
 				post: findOne,
+				comments: comments,
 			});
 		} else {
 			req.flash('error_msg', 'this post doesn\`t exist');

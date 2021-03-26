@@ -9,4 +9,7 @@ router.get('/categories', root.categories);
 router.get('/categories/:slug', root.categoriesSlug);
 router.get('/404', root.error404);
 
+// COMMENTS
+router.post('/post/:slug/newComment', root.postComment);
+
 export default router;
