@@ -51,6 +51,7 @@ export async function postSlug(req, res) {
 		const findOne = await post.findOne({
 			slug: slug,
 		}).lean();
+
 		const comments = await comment.find({
 			pageSlug: slug,
 		}).lean();
