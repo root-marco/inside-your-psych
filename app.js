@@ -3,7 +3,6 @@ import dotenv from 'dotenv'; dotenv.config();
 import methodOverride from 'method-override';
 import handlebars from 'express-handlebars';
 import session from 'express-session';
-import bodyParser from 'body-parser';
 import flash from 'connect-flash';
 import mongoose from 'mongoose';
 import passport from 'passport';
