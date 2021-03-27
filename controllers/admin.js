@@ -14,11 +14,11 @@ export function admin(req, res) {
 export async function posts(req, res) {
 
 	try {
-		const find = await Post.find().sort({
+		const postFind = await Post.find().sort({
 			_id: -1,
 		}).populate('category').lean();
 		res.render('admin/posts', {
-			posts: find,
+			posts: postFind,
 		});
 	} catch {
 		req.flash('error_msg', 'unable to list posts.');
@@ -105,16 +105,16 @@ export async function postsNew(req, res) {
 export async function postsEdit(req, res) {
 
 	try {
-		const findOne = await Post.findOne({
+		const postFindOne = await Post.findOne({
 			_id: req.body.id,
 		});
-		findOne.title = req.body.title;
-		findOne.slug = req.body.slug;
-		findOne.description = req.body.description;
-		findOne.content = req.body.content;
-		findOne.category = req.body.category;
+		postFindOne.title = req.body.title;
+		postFindOne.slug = req.body.slug;
+		postFindOne.description = req.body.description;
+		postFindOne.content = req.body.content;
+		postFindOne.category = req.body.category;
 		try {
-			findOne.save();
+			postFindOne.save();
 			req.flash('success_msg', 'successfully edited post.');
 			res.redirect('/admin/posts');
 		} catch {
@@ -132,14 +132,14 @@ export async function postsEdit(req, res) {
 export async function postsEditId(req, res) {
 
 	try {
-		const findOne = await Post.findOne({
+		const postFindOne = await Post.findOne({
 			_id: req.params.id,
 		}).lean();
 		try {
-			const find = await Category.find().lean();
+			const categoryFind = await Category.find().lean();
 			res.render('admin/postsedit', {
-				categories: find,
-				post: findOne,
+				categories: categoryFind,
+				post: postFindOne,
 			});
 		} catch {
 			req.flash('error_msg', 'failed to list categories');
@@ -244,13 +244,13 @@ export async function categoriesEdit(req, res) {
 
 	if (errors.length == 0) {
 		try {
-			const findOne = await Category.findOne({
+			const categoryFindOne = await Category.findOne({
 				_id: req.body.id,
 			});
-			findOne.name = req.body.name;
-			findOne.slug = req.body.slug;
+			categoryFindOne.name = req.body.name;
+			categoryFindOne.slug = req.body.slug;
 			try {
-				findOne.save();
+				categoryFindOne.save();
 				req.flash('success_msg', 'successfully edited category.');
 				res.redirect('/admin/categories');
 			} catch {

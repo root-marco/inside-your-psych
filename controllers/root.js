@@ -5,11 +5,11 @@ import Comment from '../models/Comments.js';
 export async function root(req, res) {
 
 	try {
-		const find = await Post.find().sort({
+		const postFind = await Post.find().sort({
 			_id: -1,
 		}).populate('category').lean();
 		res.render('index', {
-			posts: find,
+			posts: postFind,
 		});
 	} catch {
 		req.flash('error_msg', 'error 404');
@@ -20,16 +20,10 @@ export async function root(req, res) {
 
 export async function postComment(req, res) {
 
-	const content = req.body.content;
-
-	const pageSlug = Post.findOne({
-		slug: req.params.slug,
-	});
-
 	const postComment = {
-		content: content,
+		content: req.body.content,
 		pageSlug: req.params.slug,
-		createdBy: 'Gab/Marc',
+		createdBy: 'user',
 	};
 
 	try {
@@ -41,25 +35,23 @@ export async function postComment(req, res) {
 		res.redirect('/');
 	}
 
-};
+}
 
 export async function postSlug(req, res) {
 
-	const slug = req.params.slug;
-	
 	try {
-		const findOne = await Post.findOne({
-			slug: slug,
+		const postFindOne = await Post.findOne({
+			slug: req.params.slug,
 		}).lean();
 
-		const comments = await Comment.find({
-			pageSlug: slug,
+		const commentFind = await Comment.find({
+			pageSlug: req.params.slug,
 		}).lean();
 
-		if (findOne) {
+		if (postFindOne) {
 			res.render('post/post', {
-				post: findOne,
-				comments: comments,
+				post: postFindOne,
+				comments: commentFind,
 			});
 		} else {
 			req.flash('error_msg', 'this post doesn\`t exist');
@@ -76,9 +68,9 @@ export async function postSlug(req, res) {
 export async function categories(req, res) {
 
 	try {
-		const find = await Category.find().lean();
+		const categoryFind = await Category.find().lean();
 		res.render('category/category', {
-			categories: find,
+			categories: categoryFind,
 		});
 	} catch {
 		req.flash('error_msg', 'cannot find categories.');
@@ -90,18 +82,18 @@ export async function categories(req, res) {
 export async function categoriesSlug(req, res) {
 
 	try {
-		const findOne = await Category.findOne({
+		const categoryFindOne = await Category.findOne({
 			slug: req.params.slug,
 		}).lean();
 
-		if (findOne) {
+		if (categoryFindOne) {
 			try {
 				const find = await Post.find({
-					category: findOne._id,
+					category: categoryFindOne._id,
 				}).lean();
 				res.render('category/posts', {
 					posts: find,
-					category: findOne,
+					category: categoryFindOne,
 				});
 			} catch {
 				req.flash('error_msg', 'error to load posts');

@@ -1,4 +1,4 @@
-import user from '../models/User.js';
+import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
 
@@ -47,7 +47,7 @@ export async function registerNew(req, res) {
 	if (errors.length == 0) {
 
 		try {
-			const findOne = await user.findOne({
+			const findOne = await User.findOne({
 				email: req.body.email,
 			});
 
@@ -55,7 +55,7 @@ export async function registerNew(req, res) {
 				req.flash('error_msg', 'email already in use');
 				res.redirect('/user/register');
 			} else {
-				const newUser = new user({
+				const newUser = new User({
 					name: req.body.name,
 					email: req.body.email,
 					password: req.body.password,
