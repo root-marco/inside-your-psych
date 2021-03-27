@@ -1,11 +1,11 @@
-import post from '../models/Post.js';
-import category from '../models/Category.js';
-import comment from '../models/Comments.js';
+import Post from '../models/Post.js';
+import Category from '../models/Category.js';
+import Comment from '../models/Comments.js';
 
 export async function root(req, res) {
 
 	try {
-		const find = await post.find().sort({
+		const find = await Post.find().sort({
 			_id: -1,
 		}).populate('category').lean();
 		res.render('index', {
@@ -22,7 +22,7 @@ export async function postComment(req, res) {
 
 	const content = req.body.content;
 
-	const pageSlug = post.findOne({
+	const pageSlug = Post.findOne({
 		slug: req.params.slug,
 	});
 
@@ -33,7 +33,7 @@ export async function postComment(req, res) {
 	};
 
 	try {
-		await new comment(postComment).save();
+		await new Comment(postComment).save();
 		res.redirect(`/post/${req.params.slug}`);
 	}
 	catch {
@@ -48,11 +48,11 @@ export async function postSlug(req, res) {
 	const slug = req.params.slug;
 	
 	try {
-		const findOne = await post.findOne({
+		const findOne = await Post.findOne({
 			slug: slug,
 		}).lean();
 
-		const comments = await comment.find({
+		const comments = await Comment.find({
 			pageSlug: slug,
 		}).lean();
 
@@ -76,7 +76,7 @@ export async function postSlug(req, res) {
 export async function categories(req, res) {
 
 	try {
-		const find = await category.find().lean();
+		const find = await Category.find().lean();
 		res.render('category/category', {
 			categories: find,
 		});
@@ -90,13 +90,13 @@ export async function categories(req, res) {
 export async function categoriesSlug(req, res) {
 
 	try {
-		const findOne = await category.findOne({
+		const findOne = await Category.findOne({
 			slug: req.params.slug,
 		}).lean();
 
 		if (findOne) {
 			try {
-				const find = await post.find({
+				const find = await Post.find({
 					category: findOne._id,
 				}).lean();
 				res.render('category/posts', {

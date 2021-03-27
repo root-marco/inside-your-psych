@@ -1,5 +1,5 @@
-import category from '../models/Category.js';
-import post from '../models/Post.js';
+import Category from '../models/Category.js';
+import Post from '../models/Post.js';
 
 // ADMIN
 
@@ -14,7 +14,7 @@ export function admin(req, res) {
 export async function posts(req, res) {
 
 	try {
-		const find = await post.find().sort({
+		const find = await Post.find().sort({
 			_id: -1,
 		}).populate('category').lean();
 		res.render('admin/posts', {
@@ -31,7 +31,7 @@ export async function posts(req, res) {
 export async function postsAdd(req, res) {
 
 	try {
-		const categoryFind = await category.find().lean();
+		const categoryFind = await Category.find().lean();
 		res.render('admin/postsadd', {
 			categories: categoryFind,
 		});
@@ -88,7 +88,7 @@ export async function postsNew(req, res) {
 		};
 
 		try {
-			await new post(newPost).save();
+			await new Post(newPost).save();
 			req.flash('success_msg', 'successfully created post.');
 			res.redirect('/admin/posts');
 		} catch {
@@ -105,7 +105,7 @@ export async function postsNew(req, res) {
 export async function postsEdit(req, res) {
 
 	try {
-		const findOne = await post.findOne({
+		const findOne = await Post.findOne({
 			_id: req.body.id,
 		});
 		findOne.title = req.body.title;
@@ -132,11 +132,11 @@ export async function postsEdit(req, res) {
 export async function postsEditId(req, res) {
 
 	try {
-		const findOne = await post.findOne({
+		const findOne = await Post.findOne({
 			_id: req.params.id,
 		}).lean();
 		try {
-			const find = await category.find().lean();
+			const find = await Category.find().lean();
 			res.render('admin/postsedit', {
 				categories: find,
 				post: findOne,
@@ -155,7 +155,7 @@ export async function postsEditId(req, res) {
 export async function postsDeleteId(req, res) {
 
 	try {
-		await post.findByIdAndDelete(req.params.id);
+		await Post.findByIdAndDelete(req.params.id);
 		req.flash('success_msg', 'successfully deleted post.');
 		res.redirect('/admin/posts');
 	} catch {
@@ -170,7 +170,7 @@ export async function postsDeleteId(req, res) {
 export async function categories(req, res) {
 
 	try {
-		const categoryFind = await category.find().sort({
+		const categoryFind = await Category.find().sort({
 			_id: -1,
 		}).lean();
 		res.render('admin/categories', {
@@ -212,7 +212,7 @@ export async function categoriesNew(req, res) {
 			slug: slug,
 		};
 		try {
-			await new category(newCategory).save();
+			await new Category(newCategory).save();
 			req.flash('success_msg', 'successfully created category.');
 			res.redirect('/admin/categories');
 		} catch {
@@ -244,7 +244,7 @@ export async function categoriesEdit(req, res) {
 
 	if (errors.length == 0) {
 		try {
-			const findOne = await category.findOne({
+			const findOne = await Category.findOne({
 				_id: req.body.id,
 			});
 			findOne.name = req.body.name;
@@ -272,7 +272,7 @@ export async function categoriesEdit(req, res) {
 export async function categoriesEditId(req, res) {
 
 	try {
-		const categoryFindOne = await category.findOne({
+		const categoryFindOne = await Category.findOne({
 			_id: req.params.id,
 		}).lean();
 		res.render('admin/categoriesedit', {
@@ -288,7 +288,7 @@ export async function categoriesEditId(req, res) {
 export async function categoriesDeleteId(req, res) {
 
 	try {
-		await category.findByIdAndDelete(req.params.id);
+		await Category.findByIdAndDelete(req.params.id);
 		req.flash('success_msg', 'successfully deleted category.');
 		res.redirect('/admin/categories');
 	} catch {
