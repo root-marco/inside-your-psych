@@ -59,15 +59,15 @@ import userRouter from './routes/user.js';
 app.use('/user', userRouter);
 
 // MONGOOSE
-mongoose.connect(process.env.MONGOURI, {
-	useUnifiedTopology: true,
-	useNewUrlParser: true,
-});
-const db = mongoose.connection;
-db.on('error', error => console.error(error));
-db.once('open', () => {
+try {
+	await mongoose.connect(process.env.MONGOURI, {
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+	});
 	console.log('database connected');
-});
+} catch (error) {
+	console.log(error);
+}
 
 // LISTEN
 app.listen(PORT, () => {
