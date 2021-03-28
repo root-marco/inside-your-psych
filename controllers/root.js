@@ -1,6 +1,7 @@
 import Post from '../models/Post.js';
 import Category from '../models/Category.js';
 import Comment from '../models/Comments.js';
+import User from '../models/User.js';
 
 export async function root(req, res) {
 
@@ -20,17 +21,29 @@ export async function root(req, res) {
 
 export async function postComment(req, res) {
 
+	let userFindOne;
+
+	try {
+		userFindOne = User.findOne({
+			_id: req.session.passport.user,
+		});
+	} catch {
+		userFindOne = {
+			name: "Anonymous",
+		};
+	}
+
 	const postComment = {
 		content: req.body.content,
 		pageSlug: req.params.slug,
-		createdBy: 'user',
+		createdBy: userFindOne.name,
 	};
 
 	try {
 		await new Comment(postComment).save();
 		res.redirect(`/post/${req.params.slug}`);
-	}
-	catch {
+	} catch (error) {
+		console.log(error);
 		req.flash('error_msg','Error creating comment');
 		res.redirect('/');
 	}
