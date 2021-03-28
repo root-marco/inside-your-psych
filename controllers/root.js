@@ -21,30 +21,21 @@ export async function root(req, res) {
 
 export async function postComment(req, res) {
 
-	let userFindOne;
-
 	try {
-		userFindOne = User.findOne({
+		const userFindOne = await User.findOne({
 			_id: req.session.passport.user,
 		});
-	} catch {
-		userFindOne = {
-			name: "Anonymous",
+
+		const postComment = {
+			content: req.body.content,
+			pageSlug: req.params.slug,
+			createdBy: userFindOne.name,
 		};
-	}
 
-	const postComment = {
-		content: req.body.content,
-		pageSlug: req.params.slug,
-		createdBy: userFindOne.name,
-	};
-
-	try {
 		await new Comment(postComment).save();
 		res.redirect(`/post/${req.params.slug}`);
 	} catch (error) {
-		console.log(error);
-		req.flash('error_msg','Error creating comment');
+		req.flash('error_msg','Error creating comment, you are not logged in');
 		res.redirect('/');
 	}
 
