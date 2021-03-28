@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-// BODY PARSER
+// EXPRESS
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
