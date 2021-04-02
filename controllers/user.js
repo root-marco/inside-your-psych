@@ -2,13 +2,13 @@ import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
 
-export function register(req, res) {
+export async function register(req, res) {
 
 	res.render('users/register');
 
 }
 
-export function login(req, res) {
+export async function login(req, res) {
 
 	res.render('users/login');
 
@@ -16,42 +16,34 @@ export function login(req, res) {
 
 export async function registerNew(req, res) {
 
-	let errors = [];
-
 	const name = req.body.name;
 	const email = req.body.email;
 	const password = req.body.password;
 	const password2 = req.body.password2;
 
-	if (!name || typeof name == undefined || name == null) {
-		errors.push({
-			text: 'Invalid name',
-		});
+	let errors = [];
+
+	if (!name || typeof name === undefined) {
+		errors.push({ text: 'invalid name' });
 	}
-	if (!email || typeof email == undefined || email == null) {
-		errors.push({
-			text: 'Invalid email',
-		});
+	if (!email || typeof email === undefined) {
+		errors.push({ text: 'invalid email' });
 	}
-	if (!password || typeof password == undefined || password == null) {
-		errors.push({
-			text: 'Invalid password',
-		});
+	if (!password || typeof password === undefined) {
+		errors.push({ text: 'invalid password' });
 	}
-	if (password != password2) {
-		errors.push({
-			text: 'passwords are different from each other',
-		});
+	if (password !== password2) {
+		errors.push({text: 'passwords are different from each other' });
 	}
 
-	if (errors.length == 0) {
+	if (errors.length === 0) {
 
 		try {
-			const findOne = await User.findOne({
+			const userFindOne = await User.findOne({
 				email: req.body.email,
 			});
 
-			if (findOne) {
+			if (userFindOne) {
 				req.flash('error_msg', 'email already in use');
 				res.redirect('/user/register');
 			} else {
@@ -95,7 +87,7 @@ export async function registerNew(req, res) {
 
 }
 
-export function loginNew(req, res, next) {
+export async function loginNew(req, res, next) {
 
 	passport.authenticate('local', {
 		successRedirect: '/',
@@ -105,7 +97,7 @@ export function loginNew(req, res, next) {
 
 }
 
-export function logout(req, res) {
+export async function logout(req, res) {
 
 	req.logout();
 	req.flash('success_msg', 'successfully logout');

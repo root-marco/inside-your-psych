@@ -183,7 +183,7 @@ export async function categories(req, res) {
 
 }
 
-export function categoriesAdd(req, res) {
+export async function categoriesAdd(req, res) {
 
 	res.render('admin/categoriesadd');
 
