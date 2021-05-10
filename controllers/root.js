@@ -58,7 +58,7 @@ export async function postSlug(req, res) {
 				comments: commentFind,
 			});
 		} else {
-			req.flash('error_msg', 'this post doesn\`t exist');
+			req.flash('error_msg', 'this post doesn\'t exist');
 			res.redirect('/');
 		}
 
