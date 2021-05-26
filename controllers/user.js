@@ -14,7 +14,7 @@ export async function login(req, res) {
 
 }
 
-export async function registerNew(req, res) {
+export async function registerNew(req, res, next) {
 
 	const name = req.body.name;
 	const email = req.body.email;
@@ -63,7 +63,11 @@ export async function registerNew(req, res) {
 						try {
 							await newUser.save();
 							req.flash('success_msg', 'successfully created user');
-							res.redirect('/');
+							passport.authenticate('local', {
+								successRedirect: '/',
+								failureRedirect: '/user/login',
+								failureFlash: true,
+							})(req, res, next);
 						} catch (err) {
 							req.flash('error_msg', 'failed to create user');
 							console.log(err);
