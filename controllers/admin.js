@@ -51,6 +51,7 @@ export async function postsNew(req, res) {
 	const description = req.body.description;
 	const content = req.body.content;
 	const category = req.body.category;
+	const cover = req.file.filename;
 
 	if (!title || typeof title == undefined || title == null) {
 		errors.push({
@@ -79,12 +80,16 @@ export async function postsNew(req, res) {
 	}
 
 	if (errors.length == 0) {
+
+		console.log(req.file.path);
+
 		const newPost = {
 			title: title,
 			slug: slug,
 			description: description,
 			content: content,
 			category: category,
+			coverImage: cover,
 		};
 
 		try {
