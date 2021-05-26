@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import path from 'path';
+const coverImageBasePath = 'covers';
 
 const post = new mongoose.Schema({
 	title: {
@@ -22,12 +24,21 @@ const post = new mongoose.Schema({
 		ref: 'category',
 		required: true,
 	},
+	coverImage: {
+		type: String,
+	},
 	date: {
 		type: Date,
 		default: Date.now(),
 	},
 });
 
+const basePath = post.virtual('coverImagePath').get(() => {
+	if (this.coverImage != null) {
+		return path.join('/', coverImageBasePath, this.coverImage);
+	}
+});
+
 const Post = mongoose.model('post', post);
 
-export default Post;
+export default Post
