@@ -12,15 +12,22 @@
 <h3>New post:</h3>
 <div class="card">
 	<div class="card-body">
-		<form action="/admin/posts/new" method="POST">
+		<form enctype="multipart/form-data" action="/admin/posts/new" method="POST">
+			<label for="upfile">Cover Image:</label>
+			<input class="form-control" type="file" name="upfile">
+
 			<label for="title">Title:</label>
 			<input class="form-control" type="text" name="title">
+
 			<label for="slug">Slug:</label>
 			<input class="form-control" type="text" name="slug">
+
 			<label for="description">Description:</label>
 			<input class="form-control" type="text" name="description">
+
 			<label for="content">Content:</label>
 			<textarea id="editor" class="form-control" rows="10" type="text" name="content">
+				
 			</textarea>
 			<label for="category">Category:</label>
 			<select class="form-select" name="category">
@@ -39,7 +46,5 @@
 <script>
 	ClassicEditor
 		.create(document.querySelector('#editor'))
-		.catch(error => {
-			console.error(error);
-		});
+		.catch(error => console.error(error));
 </script>
