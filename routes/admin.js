@@ -1,6 +1,8 @@
 import express from 'express';
+
 import * as admin from '../controllers/admin.js';
 import isAdmin from '../helpers/isAdmin.js';
+import fileUpload from '../helpers/fileUpload.js';
 
 const router = express.Router();
 
@@ -10,7 +12,7 @@ router.get('/', isAdmin, admin.admin);
 router.get('/posts', isAdmin, admin.posts);
 router.get('/posts/add', isAdmin, admin.postsAdd);
 
-router.post('/posts/new', isAdmin, admin.postsNew);
+router.post('/posts/new', isAdmin, fileUpload, admin.postsNew);
 router.post('/posts/edit', isAdmin, admin.postsEdit);
 
 router.get('/posts/edit/:id', isAdmin, admin.postsEditId);
