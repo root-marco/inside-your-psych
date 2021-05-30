@@ -4,8 +4,8 @@ const isAdmin = (req, res, next) => {
 		return next();
 	}
 
-	req.flash('error_msg', 'You\'re not admin');
-	res.redirect('/');
+	req.flash("error_msg", "You're not admin");
+	res.redirect("/");
 
 }
 
