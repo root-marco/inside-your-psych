@@ -1,5 +1,4 @@
 // MODULES
-import dotenv from "dotenv"; dotenv.config();
 import methodOverride from "method-override";
 import handlebars from "express-handlebars";
 import session from "express-session";
@@ -8,11 +7,12 @@ import mongoose from "mongoose";
 import passport from "passport";
 import express from "express";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
 
 // APP
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(express.static(`${process.cwd()}/src/public/covers`));
 app.set("views", path.join(`${process.cwd()}/src/views`));
 
 // METHOD OVERRIDE
@@ -42,7 +42,10 @@ app.use((req, res, next) => {
 });
 
 // EXPRESS
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static(`${process.cwd()}/src/public/covers`));
+app.use(express.urlencoded({
+	extended: true
+}));
 app.use(express.json());
 
 // HANDLEBARS
