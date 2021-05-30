@@ -11,7 +11,9 @@
 	
 	<div class="card-body">
 
-		<img src="{{coverImage}}" class="image-thumbnail" style="width: 50%;" alt="not working">
+		{{#if coverImage}} 
+		<img src="{{coverImage}}" class="image-thumbnail" style="width: 50%;">
+		{{/if}}
 
 		<h3>{{title}}</h3>
 		<h6>{{description}}</h6>
