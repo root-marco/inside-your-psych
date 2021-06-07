@@ -20,9 +20,9 @@ app.use(methodOverride("_method"));
 
 // SESSION
 app.use(session({
-	secret: process.env.SECRET,
-	resave: true,
-	saveUninitialized: true,
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true,
 }));
 
 // PASSPORT
@@ -34,23 +34,23 @@ configAuth(passport);
 // FLASH
 app.use(flash());
 app.use((req, res, next) => {
-	res.locals.success_msg = req.flash("success_msg");
-	res.locals.error_msg = req.flash("error_msg");
-	res.locals.error = req.flash("error");
-	res.locals.user = req.user || null;
-	next();
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user || null;
+  next();
 });
 
 // EXPRESS
 app.use(express.static(`${process.cwd()}/src/public/covers`));
 app.use(express.urlencoded({
-	extended: true
+  extended: true,
 }));
 app.use(express.json());
 
 // HANDLEBARS
 app.engine("handlebars", handlebars({
-	defaultLayout: "main",
+  defaultLayout: "main",
 }));
 app.set("view engine", "handlebars");
 
@@ -64,16 +64,16 @@ app.use("/user", userRouter);
 
 // MONGOOSE
 try {
-	await mongoose.connect(process.env.MONGOURI, {
-		useUnifiedTopology: true,
-		useNewUrlParser: true,
-	});
-	console.log("database connected");
+  await mongoose.connect(process.env.MONGOURI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  });
+  console.log("database connected");
 } catch (error) {
-	console.log(error);
+  console.log(error);
 }
 
 // LISTEN
 app.listen(PORT, () => {
-	console.log(`server running on localhost:${PORT}`);
+  console.log(`server running on localhost:${PORT}`);
 });

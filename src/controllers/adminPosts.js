@@ -1,3 +1,6 @@
+import Post from "../models/Post.js";
+import Category from "../models/Category.js";
+
 export async function posts(req, res) {
 
 	try {

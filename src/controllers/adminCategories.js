@@ -1,3 +1,5 @@
+import Category from "../models/Category.js";
+
 export async function categories(req, res) {
 
 	try {
