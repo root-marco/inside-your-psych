@@ -15,6 +15,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.set("views", path.join(`${process.cwd()}/src/views`));
 
+// EXPRESS
+app.use(express.urlencoded({
+  extended: true,
+}));
+app.use(express.json());
+
 // METHOD OVERRIDE
 app.use(methodOverride("_method"));
 
@@ -40,13 +46,6 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 });
-
-// EXPRESS
-app.use(express.static(`${process.cwd()}/src/public/covers`));
-app.use(express.urlencoded({
-  extended: true,
-}));
-app.use(express.json());
 
 // HANDLEBARS
 app.engine("handlebars", handlebars({

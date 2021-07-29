@@ -25,8 +25,10 @@ export async function categoriesAdd(req, res) {
 export async function categoriesNew(req, res) {
 
 	let errors = [];
-	const name = req.body.name;
+	
+  const name = req.body.name;
 	const slug = req.body.slug;
+
 
 	if (!name || typeof name == undefined || name == null) {
 		errors.push({

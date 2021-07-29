@@ -3,9 +3,7 @@ import express from "express";
 import * as adminPosts from "../controllers/adminPosts.js";
 import * as adminCategories from "../controllers/adminCategories.js";
 import * as admin from "../controllers/admin.js";
-
 import isAdmin from "../helpers/isAdmin.js";
-import fileUpload from "../helpers/fileUpload.js";
 
 const router = express.Router();
 
@@ -15,7 +13,7 @@ router.get("/", isAdmin, admin.admin);
 router.get("/posts", isAdmin, adminPosts.posts);
 router.get("/posts/add", isAdmin, adminPosts.postsAdd);
 
-router.post("/posts/new", isAdmin, fileUpload, adminPosts.postsNew);
+router.post("/posts/new", isAdmin, adminPosts.postsNew);
 router.post("/posts/edit", isAdmin, adminPosts.postsEdit);
 
 router.get("/posts/edit/:id", isAdmin, adminPosts.postsEditId);
